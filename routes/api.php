@@ -29,4 +29,5 @@ Route::get('/', function(){
 
 Route::group(['prefix' => '/ticket'], function() {
     Route::get('/',[TicketController::class,'index']);
+    Route::post('/',[TicketController::class,'add']);
 });
