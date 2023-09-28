@@ -20,6 +20,7 @@ class Ticket extends Model
 
     protected static function boot()
     {
+        // ? This will auto generate a ticket number
         parent::boot();
         static::creating(function ($model) {
             $model->ticket_no = "TICKET/" . time();
