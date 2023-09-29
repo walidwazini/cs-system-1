@@ -26,4 +26,20 @@ class Ticket extends Model
             $model->ticket_no = "TICKET/" . time();
         });
     }
+
+    // * Setup relation
+    public function typeRef()
+    {
+        return $this->hasOne(Reference::class,'id','type');
+    }
+    
+    public function statusRef()
+    {
+        return $this->hasOne(Reference::class, 'id', 'status');
+
+    }
+    public function priorityRef()
+    {
+        return $this->hasOne(Reference::class, 'id', 'priority');
+    }
 }

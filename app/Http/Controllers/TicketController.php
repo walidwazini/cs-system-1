@@ -7,14 +7,19 @@ use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
+    private $allTickets ;
     //
     public function index()
     {
+        $allTickets = Ticket::with(['typeRef','statusRef','priorityRef'])->get();
         return response()->json([
             'message' => 'Succesfully retrieve all tickets !',
-            'data' => Ticket::all()
+            // 'data' => Ticket::all()
+            'data' => $allTickets
         ]);
     }
+
+
 
     public function add(Request $req)
     {
