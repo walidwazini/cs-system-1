@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReferenceController;
 use App\Http\Controllers\TicketController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,3 +35,5 @@ Route::group(['prefix' => '/ticket'], function() {
     Route::put('/{id}',[TicketController::class,'update']);
     Route::delete('/{id}',[TicketController::class,'delete']);
 });
+
+Route::get('/ref',[ReferenceController::class,'index']);
