@@ -18,6 +18,20 @@ class Ticket extends Model
         'email_reported_by'
     ];
 
+    // ? Manipulate data => change date format
+    protected $casts = [
+        'created_at' => 'date:d/m/Y',
+        'updated_at' => 'date:d/m/Y'
+    ];
+
+
+    // ? Includes specific value from different table, so no need inlcude refs in controller
+    protected $appends = ['type_val', 'status_val', 'priority_val'];
+
+    // ? Hide any data
+    protected $hidden = ['typeRef','created_at'];
+
+
     protected static function boot()
     {
         // ? This will auto generate a ticket number
@@ -30,9 +44,9 @@ class Ticket extends Model
     // * Setup relation
     public function typeRef()
     {
-        return $this->hasOne(Reference::class,'id','type');
+        return $this->hasOne(Reference::class, 'id', 'type');
     }
-    
+
     public function statusRef()
     {
         return $this->hasOne(Reference::class, 'id', 'status');
@@ -42,4 +56,22 @@ class Ticket extends Model
     {
         return $this->hasOne(Reference::class, 'id', 'priority');
     }
+
+
+
+    // ? Includes specific value from different table, so no need inlcude refs in controller
+    public function getTypeValAttribute()
+    {
+        return empty($this->typeRef->value) ? '' : $this->typeRef->value;
+    }
+    public function getStatusValAttribute()
+    {
+        return empty($this->statusRef->value) ? '' : $this->statusRef->value;
+
+    }
+    public function getPriorityValAttribute()
+    {
+        return empty($this->priorityRef->value) ? '' : $this->priorityRef->value;
+    }
+
 }
