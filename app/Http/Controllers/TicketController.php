@@ -85,7 +85,7 @@ class TicketController extends Controller
         $ticket = Ticket::where('id', $id)->delete();
 
         if (empty($ticket)) {
-            return response()->json(['message' => 'Data for id:' . $id . ' not found']);
+            return response()->json(['message' => 'Data for id:' . $id . ' not found, delete fail.']);
         } else {
 
             return response()->json(['message' => 'Successfullly delete row with id:' . $id,]);
