@@ -29,5 +29,8 @@ Route::get('/', function(){
 
 Route::group(['prefix' => '/ticket'], function() {
     Route::get('/',[TicketController::class,'index']);
+    Route::get('/{id}',[TicketController::class,'show']);
     Route::post('/',[TicketController::class,'add']);
+    Route::put('/{id}',[TicketController::class,'update']);
+    Route::delete('/{id}',[TicketController::class,'delete']);
 });
