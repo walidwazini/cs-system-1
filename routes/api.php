@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReferenceController;
 use App\Http\Controllers\TicketCommentController;
 use App\Http\Controllers\TicketController;
@@ -44,6 +45,11 @@ Route::group(['prefix' => '/ticket'], function() {
         Route::post('/',[TicketCommentController::class,'store']);
         Route::delete('/{id}',[TicketCommentController::class,'delete']);
     });
+});
+
+Route::group(['prefix' => '/auth'], function () {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
 });
 
 Route::get('/ref',[ReferenceController::class,'index']);
