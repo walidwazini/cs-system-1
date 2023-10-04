@@ -16,9 +16,14 @@ class AuthController extends Controller
                 'password' => ['required', 'min:8'],
             ]);
 
-            if (!auth()->guard('web')->attempt($request->all())) {
-                throw new Exception('Email / Password mismatch');
+            // if (!auth()->guard('web')->attempt($request->all())) {
+            //     throw new Exception('Email / Password mismatch');
+            // }
+
+            if (!auth()->attempt($request->all())) {
+                throw new Exception('Email / Password Mismatch');
             }
+
 
             return response()->json([
                 'token' => auth()->user()->createToken('login', ['*'])->plainTextToken,
@@ -54,6 +59,20 @@ class AuthController extends Controller
             return response()->json([
                 "message" => $th->getMessage()
             ], 400);
+        }
+    }
+
+    public function verify()
+    {
+        try {
+            User::where("id", auth()->user()->id)->update(["email_verified_at" => now()]);
+            return response()->json([
+                "message" => "Successfully Verify"
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "message" => "Fail to verify. Please Contact System Admin"
+            ], 500);
         }
     }
 
