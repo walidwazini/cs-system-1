@@ -6,14 +6,12 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-class AuthController extends Controller
-{
-    public function login(Request $request)
-    {
+class AuthController extends Controller {
+    public function login(Request $request) {
         try {
             $request->validate([
                 'email' => ['required', 'string', 'email'],
-                'password' => ['required', 'min:8'],
+                'password' => ['required', 'min:6'],
             ]);
 
             // if (!auth()->guard('web')->attempt($request->all())) {
@@ -38,13 +36,12 @@ class AuthController extends Controller
     }
 
 
-    public function register(Request $request)
-    {
+    public function register(Request $request) {
         try {
             $request->validate([
                 "name" => ['required', 'string'],
                 "email" => ['required', 'string', 'email', 'unique:' . User::class],
-                "password" => ['required', 'min:8']
+                "password" => ['required', 'min:6']
             ]);
 
             $user = $request->all();
@@ -62,8 +59,7 @@ class AuthController extends Controller
         }
     }
 
-    public function verify()
-    {
+    public function verify() {
         try {
             User::where("id", auth()->user()->id)->update(["email_verified_at" => now()]);
             return response()->json([

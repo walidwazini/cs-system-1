@@ -20,10 +20,12 @@ return new class extends Migration {
             $table->foreign('ticket_id')->references('id')->on('tickets')->cascadeOnDelete();
         });
 
-        Schema::table('attachments', function (Blueprint $table) {
-            $table->foreign('parent_id', 'ticket_attachment_foreign')->references('id')->on('tickets')->cascadeOnDelete();
-            $table->foreign('parent_id', 'comment_attachment_foreign')->references('id')->on('ticket_comments')->cascadeOnDelete();
-        });
+
+        // ! mungkin akan buang
+        // Schema::table('attachments', function (Blueprint $table) {
+        //     $table->foreign('parent_id', 'ticket_attachment_foreign')->references('id')->on('tickets')->cascadeOnDelete();
+        //     $table->foreign('parent_id', 'comment_attachment_foreign')->references('id')->on('ticket_comments')->cascadeOnDelete();
+        // });
     }
 
     /**

@@ -38,6 +38,10 @@ class Ticket extends Model
         parent::boot();
         static::creating(function ($model) {
             $model->ticket_no = "TICKET/" . time();
+            // ? value for email_reported_by will be filled automatically by online User (through token)
+            if (!empty(auth())) {
+                $model->email_reported_by = auth()->user()->email;
+            }
         });
     }
 

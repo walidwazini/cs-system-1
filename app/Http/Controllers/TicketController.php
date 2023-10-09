@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 
-class TicketController extends Controller
-{
+class TicketController extends Controller {
     //
     // ? GET reuqest without a query/params
     // public function index()
@@ -18,8 +17,7 @@ class TicketController extends Controller
     //     ]);
     // }
 
-    public function index(Request $req)
-    {
+    public function index(Request $req) {
         $conditions = $req->all();
         $allTickets = Ticket::with(['typeRef', 'statusRef', 'priorityRef']);
 
@@ -37,8 +35,7 @@ class TicketController extends Controller
         ]);
     }
 
-    public function show($id)
-    {
+    public function show($id) {
         $ticket = Ticket::with(['typeRef', 'statusRef', 'priorityRef'])->where('id', $id)->first();
 
         if (empty($ticket)) {
@@ -53,8 +50,7 @@ class TicketController extends Controller
         }
     }
 
-    public function add(Request $req)
-    {
+    public function add(Request $req) {
         $newTicket = Ticket::create($req->all());
         return response()->json([
             'message' => 'Succefully add new ticket.',
@@ -62,8 +58,7 @@ class TicketController extends Controller
         ]);
     }
 
-    public function update($id, Request $req)
-    {
+    public function update($id, Request $req) {
         $ticket = Ticket::where('id', $id)->update($req->all());
 
         if (empty($ticket)) {
@@ -80,8 +75,7 @@ class TicketController extends Controller
 
     }
 
-    public function delete($id, Request $request)
-    {
+    public function delete($id, Request $request) {
         $ticket = Ticket::where('id', $id)->delete();
 
         if (empty($ticket)) {
