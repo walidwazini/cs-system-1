@@ -61,6 +61,11 @@ class Ticket extends Model
         return $this->hasOne(Reference::class, 'id', 'priority');
     }
 
+    // ?   Create relation with Attachment Model
+    public function attachments(){
+        //  parent_id is a foreign key
+        return $this->hasMany(Attachment::class,'parent_id','id')->where('parent_model', Ticket::class);
+    }
 
 
     // ? Includes specific value from different table, so no need inlcude refs in controller

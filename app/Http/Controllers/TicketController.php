@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attachment;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 
@@ -52,6 +53,12 @@ class TicketController extends Controller {
 
     public function add(Request $req) {
         $newTicket = Ticket::create($req->all());
+
+        //  ? New flow to receive attachment file
+        //   Need to use form_data format in Postman
+        $attachments = $req->file('attachments');
+        Attachment::put($attachments,$newTicket->id,Ticket::class);
+
         return response()->json([
             'message' => 'Succefully add new ticket.',
             'data' => $newTicket
