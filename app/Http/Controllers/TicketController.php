@@ -20,7 +20,7 @@ class TicketController extends Controller {
 
     public function index(Request $req) {
         $conditions = $req->all();
-        $allTickets = Ticket::with(['typeRef', 'statusRef', 'priorityRef','attachments']);
+        $allTickets = Ticket::with(['typeRef', 'statusRef', 'priorityRef', 'attachments']);
 
         if (!empty($conditions)) {
             $allTickets = $allTickets->where($conditions)->get();
@@ -40,9 +40,7 @@ class TicketController extends Controller {
         $ticket = Ticket::with(['typeRef', 'statusRef', 'priorityRef'])->where('id', $id)->first();
 
         if (empty($ticket)) {
-            return response()->json([
-                'message' => 'Data for id:' . $id . ' not found'
-            ]);
+            return response()->json(['message' => "Data for id:$id not found"]);
         } else {
             return response()->json([
                 'message' => 'Success.',
@@ -57,7 +55,7 @@ class TicketController extends Controller {
         //  ? New flow to receive attachment file
         //   Need to use form_data format in Postman
         $attachments = $req->file('attachments');
-        Attachment::put($attachments,$newTicket->id,Ticket::class);
+        Attachment::put($attachments, $newTicket->id, Ticket::class);
 
         return response()->json([
             'message' => 'Succefully add new ticket.',
@@ -67,11 +65,13 @@ class TicketController extends Controller {
 
     public function update($id, Request $req) {
         $ticket = Ticket::where('id', $id)->update($req->all());
+        //  System assume if user want to change file.
+        $attachments = $req->file('attachements');
+        Attachment::put($attachments, $ticket->id, Ticket::class);
 
         if (empty($ticket)) {
-            return response()->json([
-                'message' => 'Data for id:' . $id . ' not found'
-            ]);
+            return response()->json(['message' => "Data for id:$id not found"]);
+
         } else {
             return response()->json([
                 'message' => 'Successfullly updated from Postman.',
