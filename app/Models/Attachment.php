@@ -13,6 +13,14 @@ class Attachment extends Model {
 
     protected $fillable = ['parent_model', 'parent_id', 'path'];
 
+    protected $hidden = ['parent_model','parent_id','created_at','updated_at'];
+
+    protected $appends = ['link'];
+
+    public function getLinkAttribute() {
+        return url("/storage/$this->path");
+    }
+
     public static function put($files, $parent_id, $parent_model) {
         $attachments = [];
 

@@ -29,7 +29,7 @@ class Ticket extends Model
     protected $appends = ['type_val', 'status_val', 'priority_val'];
 
     // ? Hide any data
-    protected $hidden = ['typeRef','created_at'];
+    protected $hidden = ['priorityRef','statusRef', 'typeRef','created_at'];
 
 
     protected static function boot()

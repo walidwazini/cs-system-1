@@ -20,7 +20,7 @@ class TicketController extends Controller {
 
     public function index(Request $req) {
         $conditions = $req->all();
-        $allTickets = Ticket::with(['typeRef', 'statusRef', 'priorityRef']);
+        $allTickets = Ticket::with(['typeRef', 'statusRef', 'priorityRef','attachments']);
 
         if (!empty($conditions)) {
             $allTickets = $allTickets->where($conditions)->get();
