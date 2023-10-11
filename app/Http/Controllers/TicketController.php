@@ -64,10 +64,11 @@ class TicketController extends Controller {
     }
 
     public function update($id, Request $req) {
-        $ticket = Ticket::where('id', $id)->update($req->all());
+        $ticket = Ticket::where('id', $id)->update($req->except(['_method','attachments']));
         //  System assume if user want to change file.
-        $attachments = $req->file('attachements');
-        Attachment::put($attachments, $ticket->id, Ticket::class);
+        $attachments = $req->file('attachments');
+        // dd($attachments);
+        Attachment::put($attachments, $id, Ticket::class);
 
         if (empty($ticket)) {
             return response()->json(['message' => "Data for id:$id not found"]);
@@ -79,7 +80,6 @@ class TicketController extends Controller {
                 'changes' => $req
             ]);
         }
-
     }
 
     public function delete($id, Request $request) {
