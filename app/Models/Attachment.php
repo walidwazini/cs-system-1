@@ -13,7 +13,7 @@ class Attachment extends Model {
 
     protected $fillable = ['parent_model', 'parent_id', 'path'];
 
-    protected $hidden = ['parent_model','parent_id','created_at','updated_at'];
+    protected $hidden = ['parent_model', 'parent_id', 'created_at', 'updated_at'];
 
     protected $appends = ['link'];
 
@@ -40,5 +40,20 @@ class Attachment extends Model {
         // ?   Record the transaction in the database
         Attachment::insert($attachments);
         return $attachments;
+    }
+
+    public static function unlinkByParent($parent_id, $parent_model) {
+        $attachments = Attachment::where([
+            "parent_id" => $parent_id,
+            "parent_model" => $parent_model
+        ]);
+
+        if (!$attachments->empty()) {
+            foreach ($attachments->toArray() as $key => $value) {
+                Storage::delete('public/' . $attachments["path"]);
+                Attachment::where("id", $attachments["id"])->delete();
+            }
+
+        }
     }
 }

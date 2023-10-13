@@ -13,8 +13,9 @@ use App\Models\{
 class TicketCommentController extends Controller {
     public function index($ticketId) {
         // TicketComment::class;
-        $allComments = TicketComment::where('ticket_id', $ticketId)->get();
-
+        $allComments = TicketComment
+            ::with('attachments')
+            ->where('ticket_id', $ticketId)->get();
 
         return response()->json(['message' => 'Success!', 'data' => $allComments]);
     }
@@ -49,6 +50,9 @@ class TicketCommentController extends Controller {
     public function delete($ticketId, $id) {
         // TicketComment::where('id',$id)->delete();
         $comment = TicketComment::where('id', $id)->delete();
+
+        //  Delete attachment if ticket comment is delete.
+        Attachment::unlinkByParent($id, TicketComment::class);
 
         if (empty($comment)) {
             return response()->json('No comment found!');

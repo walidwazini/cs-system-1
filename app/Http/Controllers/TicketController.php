@@ -85,10 +85,12 @@ class TicketController extends Controller {
     public function delete($id, Request $request) {
         $ticket = Ticket::where('id', $id)->delete();
 
+        // When delete ticket, will also delete all attachments
+        Attachment::unlinkByParent($id,Ticket::class);
+
         if (empty($ticket)) {
             return response()->json(['message' => 'Data for id:' . $id . ' not found, delete fail.']);
         } else {
-
             return response()->json(['message' => 'Successfullly delete row with id:' . $id,]);
         }
     }
