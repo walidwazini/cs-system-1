@@ -31,6 +31,7 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/ref', [ReferenceController::class, 'index']);
     Route::get("/auth/verify", [AuthController::class, 'verify']);
+    Route::get("/auth/logout", [AuthController::class, 'logout']);
 
     Route::group(['prefix' => '/ticket'], function () {
         Route::get('/', [TicketController::class, 'index']);
